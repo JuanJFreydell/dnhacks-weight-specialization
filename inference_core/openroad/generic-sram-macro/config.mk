@@ -11,6 +11,7 @@ export CORE_UTILIZATION = 35
 export PLACE_DENSITY = 0.55
 export TNS_END_PERCENT = 100
 export ABC_AREA = 0
+export PDN_TCL = /work/inference_core/openroad/generic-sram-macro/pdn.tcl
 
 export SRAM_DIR = /OpenROAD-flow-scripts/flow/platforms/sky130ram
 export ADDITIONAL_LEFS = $(SRAM_DIR)/sky130_sram_1rw1r_64x256_8/sky130_sram_1rw1r_64x256_8.lef \
