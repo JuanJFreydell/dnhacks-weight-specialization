@@ -77,7 +77,7 @@ make asic-fixed
 make asic-generic-sram
 ```
 
-These use OpenROAD Flow Scripts, SKY130HD standard cells, a 10 ns target, and
+These use OpenROAD Flow Scripts, SKY130HD standard cells, a 20 ns target, and
 the public macro views referenced by `openroad/generic-sram-macro/config.mk`.
 They are open-source P&R estimates, not foundry signoff, fabricated-silicon
 measurements, or power claims. Results and flow logs are retained beneath

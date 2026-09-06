@@ -236,7 +236,7 @@ make test-expert-generic-sram
 make test-expert-fixed
 ```
 
-The ASIC build recipes use the same Sky130HD standard-cell platform and 10 ns
+The ASIC build recipes use the same Sky130HD standard-cell platform and 20 ns
 constraint for both candidates:
 
 ```bash
