@@ -1,0 +1,16 @@
+{
+  "name": "top1_reglu_moe_expert_v1",
+  "seed": 20260906,
+  "experts": 4,
+  "model_width": 16,
+  "hidden_width": 64,
+  "input_bits": 8,
+  "weight_bits": 4,
+  "accumulator_bits": 24,
+  "activation_shift": 6,
+  "test_vectors": 16,
+  "input_minimum": -4,
+  "input_maximum": 4,
+  "weight_minimum": -4,
+  "weight_maximum": 4
+}

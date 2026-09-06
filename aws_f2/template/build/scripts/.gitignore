@@ -1,0 +1,7 @@
+# These are HDK-owned symlinks into common/shell_stable in a local AWS FPGA
+# Developer Kit checkout. The public repository documents how to regenerate
+# them rather than shipping broken standalone links.
+aws_build_dcp_from_cl.py
+build_all.tcl
+build_level_1_cl.tcl
+encrypt.tcl

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+sim_build/
+*.fst
+*.vcd
+aws_f2/template/build/checkpoints/
+aws_f2/template/build/logs/
+aws_f2/template/build/runs/
+aws_f2/template/build/scripts/*.log
+aws_f2/host/matvec_host

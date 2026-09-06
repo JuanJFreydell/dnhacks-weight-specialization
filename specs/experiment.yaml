@@ -1,0 +1,28 @@
+experiment:
+  name: int8_fixed_weight_matvec_v1
+  seed: 5510
+  operation: matrix_vector_multiply
+
+arithmetic:
+  signed: true
+  input_bits: 8
+  weight_bits: 8
+  accumulator_bits: 24
+  overflow: none_expected
+
+shape:
+  rows: 8
+  columns: 8
+
+stimulus:
+  test_vectors: 32
+  minimum_value: -8
+  maximum_value: 7
+
+comparison_controls:
+  same_matrix: true
+  same_inputs: true
+  same_precision: true
+  same_parallel_multipliers: 64
+  same_clock_constraint: true
+  intentional_difference: runtime_weights_vs_compile_time_constants

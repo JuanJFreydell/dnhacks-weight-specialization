@@ -1,0 +1,30 @@
+{
+  "spec": {
+    "name": "top1_reglu_moe_expert_v1",
+    "seed": 20260906,
+    "experts": 4,
+    "model_width": 16,
+    "hidden_width": 64,
+    "input_bits": 8,
+    "weight_bits": 4,
+    "accumulator_bits": 24,
+    "activation_shift": 6,
+    "test_vectors": 16,
+    "input_minimum": -4,
+    "input_maximum": 4,
+    "weight_minimum": -4,
+    "weight_maximum": 4
+  },
+  "weight_count": 12352,
+  "active_macs_per_token": 3136,
+  "all_model_weight_bits": 49408,
+  "files": {
+    "router_weights.npy": "8a95e91904e5c4d7771f0723ee0e7061cf42c61bb0b51a8748730dcf4100b0da",
+    "up_weights.npy": "15e49bcd2dbeaa05cafb0b0354c96429734e5d941c8e8239004cf2602c0790a4",
+    "gate_weights.npy": "f45299b602637ac525cde627711653f67bd465816fe69626be65dfbf02e349e1",
+    "down_weights.npy": "5de3a7a50e190af48bfa328224b2c65b558311b6ed61f351a41a4f2af38d771f",
+    "inputs.npy": "5019ea4ff8f89f7215d3b8dc31f9d36d93eb553f82ab01fb6355ab7f6b121b08",
+    "expected_outputs.npy": "58db2393aee8c72019196c2d9cc8a659871329ff8c6a85c943ea9f002e4c5641",
+    "expected_routes.npy": "5ffb064e4ff98f5deac184e62bcf09096d26ef93d3672a2444f1e5079dd4f6b0"
+  }
+}
