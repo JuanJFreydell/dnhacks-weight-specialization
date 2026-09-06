@@ -31,6 +31,15 @@ integer arithmetic, and token buffering. Its coefficients are emitted by
 compile-time constants. It does not include writable weight storage or SRAM
 read phases.
 
+`rtl/weight_sram_sky130_1rw.sv` is the realistic programmable ASIC binding.
+It retains the generic core's external programming interface and synchronous
+read behavior, but replaces the behavioral arrays with seven characterized
+Sky130 OpenRAM macros: one 80x64 router macro, two 64x256 projection macros,
+and four 80x64 banks for the 256-bit down-projection words. This is 7,296
+bytes of physical SRAM capacity for the 6,176-byte logical model. The separate
+`sky130_sram_sim.sv` model is used only for functional verification; physical
+flows use blackbox declarations plus the macro LEF, Liberty, and GDS views.
+
 The fixed design therefore has a shorter control schedule by construction:
 it computes one hidden unit per cycle and one output per cycle, while the
 generic design spends an issue and consume cycle for every synchronous SRAM
@@ -45,6 +54,7 @@ From the repository root:
 ```bash
 make generate-expert
 make test-expert-generic
+make test-expert-generic-sram
 make test-expert-fixed
 make test-expert
 ```
@@ -58,7 +68,17 @@ check each selected route and each of 16 signed INT24 outputs, and check that
 ## ASIC status
 
 This is an RTL and verification candidate, not fabricated silicon. The generic
-memory model is deliberately isolated behind a macro-like interface so it can
-be replaced by characterized SRAM macros for ASIC synthesis. Until that macro
-substitution and post-layout signoff run, no area, power, or silicon-performance
-claim is valid.
+model is deliberately isolated behind a macro-like interface, and the
+`generic-sram` cocotb target verifies the actual macro-bank binding against the
+same golden vectors. Physical results are produced reproducibly with:
+
+```bash
+make asic-fixed
+make asic-generic-sram
+```
+
+These use OpenROAD Flow Scripts, SKY130HD standard cells, a 10 ns target, and
+the public macro views referenced by `openroad/generic-sram-macro/config.mk`.
+They are open-source P&R estimates, not foundry signoff, fabricated-silicon
+measurements, or power claims. Results and flow logs are retained beneath
+`reports/inference_core/openroad/`.

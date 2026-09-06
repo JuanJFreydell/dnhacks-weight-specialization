@@ -215,6 +215,39 @@ Service Quotas request for 24 F vCPUs in `us-east-1` remains open
 (`CASE_OPENED`), so AFI creation and execution on a physical F2 instance are
 still pending quota approval.
 
+## Inference-core ASIC candidates
+
+Alongside the controlled 8x8 matrix experiment, `inference_core/` now contains
+a concrete small inference primitive: a single-token, Top-1 routed ReGLU MoE
+block with four experts, width 16, hidden width 64, INT8 activations, INT4
+weights, signed INT24 outputs, and 3,136 active MACs per token. The fixed core
+emits the trained coefficients as RTL constants. Its matched programmable
+counterpart keeps the same math and I/O interface but programs coefficients at
+runtime into seven characterized Sky130 OpenRAM macros (7,296 physical bytes
+for 6,176 logical coefficient bytes due to available macro shapes).
+
+All three functional views are reproducible and have stored JUnit output under
+`reports/inference_core/`:
+
+```bash
+make generate-expert
+make test-expert-generic
+make test-expert-generic-sram
+make test-expert-fixed
+```
+
+The ASIC build recipes use the same Sky130HD standard-cell platform and 10 ns
+constraint for both candidates:
+
+```bash
+make asic-fixed
+make asic-generic-sram
+```
+
+Only post-flow reports stored in `reports/inference_core/openroad/` should be
+used for ASIC estimates. They are open-source physical-design estimates, not
+fabricated-silicon measurements or foundry signoff.
+
 ## Step 5: functional verification
 
 Use a shared cocotb verification strategy. For each of the 32 input vectors:
