@@ -16,10 +16,13 @@ module generic_moe_expert #(
     input  logic [255:0] weight_data,
     input  logic input_we,
     input  logic [$clog2(MODEL_WIDTH)-1:0] input_addr,
-    input  logic signed [7:0] input_data,
+    // Boundary ports are raw two's-complement bit vectors. Internal storage
+    // and arithmetic remain signed; this avoids a limitation in OpenROAD's
+    // Verilog netlist reader without changing the hardware interface.
+    input  logic [7:0] input_data,
     input  logic start,
     input  logic [$clog2(MODEL_WIDTH)-1:0] output_addr,
-    output logic signed [ACC_WIDTH-1:0] output_data,
+    output logic [ACC_WIDTH-1:0] output_data,
     output logic [$clog2(EXPERTS)-1:0] selected_expert,
     output logic busy,
     output logic done
