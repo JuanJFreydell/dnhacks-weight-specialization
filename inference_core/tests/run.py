@@ -15,7 +15,7 @@ CORE = ROOT / "inference_core"
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("design", choices=("generic", "fixed"))
+    parser.add_argument("design", choices=("generic", "generic-sram", "fixed"))
     parser.add_argument("--sim", default="icarus")
     parser.add_argument("--waves", action="store_true")
     args = parser.parse_args()
@@ -23,9 +23,19 @@ def main() -> None:
     if args.design == "generic":
         top = "generic_moe_expert"
         sources = [CORE / "rtl" / "weight_sram_1rw.sv", CORE / "rtl" / "generic_moe_expert.sv"]
+        test_module = "test_generic"
+    elif args.design == "generic-sram":
+        top = "generic_moe_expert"
+        sources = [
+            CORE / "rtl" / "sky130_sram_sim.sv",
+            CORE / "rtl" / "weight_sram_sky130_1rw.sv",
+            CORE / "rtl" / "generic_moe_expert.sv",
+        ]
+        test_module = "test_generic_sram"
     else:
         top = "fixed_moe_expert"
         sources = [CORE / "rtl" / "fixed_moe_expert.sv"]
+        test_module = "test_fixed"
     build_dir = ROOT / "sim_build" / f"expert-{args.design}"
     reports_dir = ROOT / "reports" / "inference_core"
     reports_dir.mkdir(parents=True, exist_ok=True)
@@ -45,7 +55,7 @@ def main() -> None:
         waves=args.waves,
     )
     results = runner.test(
-        test_module=f"test_{args.design}",
+        test_module=test_module,
         hdl_toplevel=top,
         hdl_toplevel_lang="verilog",
         build_dir=build_dir,

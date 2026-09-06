@@ -2,8 +2,8 @@
 # Run one OpenROAD Flow Scripts configuration and preserve textual reports.
 set -euo pipefail
 
-if [[ $# -ne 1 ]] || [[ "$1" != "fixed" && "$1" != "generic-register-screen" ]]; then
-    echo "usage: $0 {fixed|generic-register-screen}" >&2
+if [[ $# -ne 1 ]] || [[ "$1" != "fixed" && "$1" != "generic-register-screen" && "$1" != "generic-sram-macro" ]]; then
+    echo "usage: $0 {fixed|generic-register-screen|generic-sram-macro}" >&2
     exit 2
 fi
 

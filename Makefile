@@ -3,7 +3,7 @@ SIM ?= icarus
 WAVES ?= 0
 WAVE_FLAG = $(if $(filter 1 yes true,$(WAVES)),--waves,)
 
-.PHONY: generate generate-expert test-generic test-fixed test test-f2-generic test-f2-fixed test-f2 test-expert-generic test-expert-fixed test-expert waves clean
+.PHONY: generate generate-expert test-generic test-fixed test test-f2-generic test-f2-fixed test-f2 test-expert-generic test-expert-generic-sram test-expert-fixed test-expert asic-fixed asic-generic-sram waves clean
 
 generate:
 	$(PYTHON) scripts/generate_artifacts.py
@@ -32,10 +32,19 @@ test-f2: test-f2-generic test-f2-fixed
 test-expert-generic: generate-expert
 	$(PYTHON) inference_core/tests/run.py generic --sim "$(SIM)" $(WAVE_FLAG)
 
+test-expert-generic-sram: generate-expert
+	$(PYTHON) inference_core/tests/run.py generic-sram --sim "$(SIM)" $(WAVE_FLAG)
+
 test-expert-fixed: generate-expert
 	$(PYTHON) inference_core/tests/run.py fixed --sim "$(SIM)" $(WAVE_FLAG)
 
-test-expert: test-expert-generic test-expert-fixed
+test-expert: test-expert-generic test-expert-generic-sram test-expert-fixed
+
+asic-fixed: generate-expert
+	inference_core/openroad/run.sh fixed
+
+asic-generic-sram: generate-expert
+	inference_core/openroad/run.sh generic-sram-macro
 
 waves:
 	$(MAKE) WAVES=1 test

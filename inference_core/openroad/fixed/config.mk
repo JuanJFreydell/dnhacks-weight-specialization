@@ -7,3 +7,7 @@ export CORE_UTILIZATION = 35
 export PLACE_DENSITY = 0.55
 export TNS_END_PERCENT = 100
 export ABC_AREA = 0
+# The generated constant-word lookup functions and local activation buffers are
+# intentionally larger than ORFS's 4 KiB safety default.  This only permits
+# synthesis; it does not infer a physical SRAM macro in this fixed-weight core.
+export SYNTH_MEMORY_MAX_BITS = 65536

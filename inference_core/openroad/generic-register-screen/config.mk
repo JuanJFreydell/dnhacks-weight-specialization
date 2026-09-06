@@ -8,3 +8,7 @@ export CORE_UTILIZATION = 35
 export PLACE_DENSITY = 0.55
 export TNS_END_PERCENT = 100
 export ABC_AREA = 0
+# This exploratory flow maps the behavioral SRAM model to standard cells, so
+# permit the real 16 KiB logical SRAM regions through ORFS's safety check.
+# It is explicitly not a macro-based SRAM PPA result.
+export SYNTH_MEMORY_MAX_BITS = 65536
