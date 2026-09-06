@@ -80,21 +80,22 @@ module fixed_moe_expert #(
         end
     endfunction
 
-    function automatic logic [$clog2(EXPERTS)-1:0] choose_expert_fixed;
-        integer index;
-        logic signed [31:0] score, best_score;
-        begin
-            choose_expert_fixed = '0;
-            best_score = dot_input(fixed_router_word(0));
-            for (index = 1; index < EXPERTS; index = index + 1) begin
-                score = dot_input(fixed_router_word(index));
-                if (score > best_score) begin
-                    choose_expert_fixed = index[$clog2(EXPERTS)-1:0];
-                    best_score = score;
-                end
+    // Kept as explicit combinational logic rather than a nested function so
+    // both Icarus and Yosys can synthesize the route selection from live x_q.
+    logic [$clog2(EXPERTS)-1:0] selected_expert_comb;
+    logic signed [31:0] router_score_comb, router_best_comb;
+    integer router_index;
+    always_comb begin
+        selected_expert_comb = '0;
+        router_best_comb = dot_input(fixed_router_word(0));
+        for (router_index = 1; router_index < EXPERTS; router_index = router_index + 1) begin
+            router_score_comb = dot_input(fixed_router_word(router_index));
+            if (router_score_comb > router_best_comb) begin
+                selected_expert_comb = router_index[$clog2(EXPERTS)-1:0];
+                router_best_comb = router_score_comb;
             end
         end
-    endfunction
+    end
 
     integer i;
     logic signed [47:0] output_sum;
@@ -117,7 +118,7 @@ module fixed_moe_expert #(
             case (state_q)
                 IDLE: if (start && !input_we) begin
                     busy <= 1'b1;
-                    selected_expert <= choose_expert_fixed();
+                    selected_expert <= selected_expert_comb;
                     hidden_index_q <= '0;
                     state_q <= HIDDEN;
                 end
